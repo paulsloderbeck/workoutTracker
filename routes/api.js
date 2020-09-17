@@ -14,6 +14,23 @@ router.post("/api/workouts", ({ body }, res) => {
 
 router.get("/api/workouts", (req, res) => {
   Workout.find({})
+    //.sort({ date: -1 })
+    .then((dbWorkout) => {
+      console.log(dbWorkout);
+      res.json(dbWorkout);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+//update route to select workout and add single exercise to workout for addExercise
+router.post("/api/workouts", (req, res) => {
+  Workout.fineOneAndUpdate({});
+});
+//route to get workouts in range for getWorkoutsInRange
+router.get("/api/workouts/range", (req, res) => {
+  Workout.find({})
     .sort({ date: -1 })
     .then((dbWorkout) => {
       res.json(dbWorkout);
@@ -22,10 +39,4 @@ router.get("/api/workouts", (req, res) => {
       res.status(400).json(err);
     });
 });
-
-//get route to sort workouts based on date and return most recent for getLastWorkout
-
-//update route to select workout and add single exercise to workout for addExercise
-
-//route to get workouts in range for getWorkoutsInRange
 module.exports = router;
