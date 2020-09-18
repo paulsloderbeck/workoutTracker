@@ -1,10 +1,12 @@
 const router = require("express").Router();
-const Workout = require("../models/workout.js");
+const db = require("../models");
 
 //creates a new Workout document in mongoDb via the workout model for createWorkout
 router.post("/api/workouts", ({ body }, res) => {
-  Workout.create(body)
+  console.log("body:", body);
+  db.Workout.create(body)
     .then((dbWorkout) => {
+      console.log("dbWorkout", dbWorkout);
       res.json(dbWorkout);
     })
     .catch((err) => {
@@ -13,8 +15,8 @@ router.post("/api/workouts", ({ body }, res) => {
 });
 
 router.get("/api/workouts", (req, res) => {
-  Workout.find({})
-    //.sort({ date: -1 })
+  db.Workout.find({})
+    .sort({ date: -1 })
     .then((dbWorkout) => {
       console.log(dbWorkout);
       res.json(dbWorkout);
@@ -25,12 +27,12 @@ router.get("/api/workouts", (req, res) => {
 });
 
 //update route to select workout and add single exercise to workout for addExercise
-router.post("/api/workouts", (req, res) => {
-  Workout.fineOneAndUpdate({});
+router.put("/api/workouts", (req, res) => {
+  db.Workout.findByIdAndUpdate({});
 });
 //route to get workouts in range for getWorkoutsInRange
 router.get("/api/workouts/range", (req, res) => {
-  Workout.find({})
+  db.Workout.find({})
     .sort({ date: -1 })
     .then((dbWorkout) => {
       res.json(dbWorkout);
